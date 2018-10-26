@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('quiz', {
+  return sequelize.define('question', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
