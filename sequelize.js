@@ -45,3 +45,13 @@ sequelize
   sequelize.sync({ force: true }).then(() => {
     console.log("Database and tables created");
   });
+
+  module.exports = {
+    User,
+    UserQuiz,
+    UserAnswer,
+    Quiz,
+    Category,
+    QuizQuestion,
+    Question
+  };
