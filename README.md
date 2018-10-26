@@ -8,3 +8,8 @@ Additional resources that helped me:
   * http://docs.sequelizejs.com
   * https://www.codementor.io/mirko0/how-to-use-sequelize-with-node-and-express-i24l67cuz
   * https://arjunphp.com/restful-api-using-async-await-node-express-sequelize/
+
+## Entity Relationship Diagram
+<p align="center">
+  <img alt="Image of ERD" src="https://raw.github.com/jtimwill/quiz_api/master/images/quiz-api-erd.png" />
+</p>

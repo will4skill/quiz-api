@@ -20,8 +20,3 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {underscored: true});
 };
-
-## Entity Relationship Diagram
-<p align="center">
-  <img alt="Image of ERD" src="https://raw.github.com/jtimwill/quiz_api/master/images/quiz-api-erd.png" />
-</p>
