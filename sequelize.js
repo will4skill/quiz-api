@@ -1,3 +1,6 @@
+const config = require('config');
+const db = config.get('db');
+
 const Sequelize = require('sequelize');
 const UserModel = require('./models/user');
 const UserQuizModel = require('./models/user_quiz');
@@ -9,17 +12,17 @@ const QuestionModel = require('./models/question');
 
 const sequelize = new Sequelize('database', 'username', 'password', {
   dialect: 'sqlite',
-  storage: './db/database.sqlite'
+  storage: db
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//   })
+//   .catch(err => {
+//     console.error('Unable to connect to the database:', err);
+//   });
 
   const User = UserModel(sequelize, Sequelize);
   const UserQuiz = UserQuizModel(sequelize, Sequelize);
@@ -44,6 +47,11 @@ sequelize
   // force: true will drop the table if it already exists
   sequelize.sync({ force: true }).then(() => {
     console.log("Database and tables created");
+    return User.create({
+      name: 'Tim',
+      email: 'test@email.com',
+      password_digest: 'test',
+    });
   });
 
   module.exports = {

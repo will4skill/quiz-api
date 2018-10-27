@@ -7,16 +7,21 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     email: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
     },
     password_digest: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     admin: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {underscored: true});
 };

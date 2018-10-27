@@ -1,0 +1,4 @@
+{
+  "jwt_private_key": "quiz_api_jwt_private_key",
+  "db": "quiz_api_db"
+}

@@ -8,6 +8,7 @@ Additional resources that helped me:
   * http://docs.sequelizejs.com
   * https://www.codementor.io/mirko0/how-to-use-sequelize-with-node-and-express-i24l67cuz
   * https://arjunphp.com/restful-api-using-async-await-node-express-sequelize/
+  * https://www.youtube.com/watch?v=6NKNfXtKk0c
 
 ## Entity Relationship Diagram
 <p align="center">

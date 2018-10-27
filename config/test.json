@@ -1,0 +1,4 @@
+{
+  "jwt_private_key": "secret",
+  "db": "./db/test.sqlite"
+}
