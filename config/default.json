@@ -2,6 +2,6 @@
   "jwt_private_key": "",
   "db": "./db/development.sqlite",
   "port": "3900",
-  "adminMiddlewareEnabled": false,
+  "adminMiddlewareEnabled": true,
   "authMiddlewareEnabled": true
 }

@@ -2,16 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../sequelize');
 const bcrypt = require('bcrypt');
-const config = require('config');
-const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const generateAuthToken = require('../utilities/tokenUtility');
 
 // *** Move to Utilities ***
-function generateAuthToken(user){
-  const secret = config.get('jwt_private_key');
-  return jwt.sign({ id: user.id, admin: user.admin }, secret);
-}
+
 // **********************************
 
 router.get('/', [auth, admin], async (req, res) => {

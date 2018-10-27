@@ -9,6 +9,7 @@ Additional resources that helped me:
   * https://www.codementor.io/mirko0/how-to-use-sequelize-with-node-and-express-i24l67cuz
   * https://arjunphp.com/restful-api-using-async-await-node-express-sequelize/
   * https://www.youtube.com/watch?v=6NKNfXtKk0c
+  * https://stackoverflow.com/questions/23929098/is-multiple-delete-available-in-sequelize
 
 ## Entity Relationship Diagram
 <p align="center">
