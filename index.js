@@ -20,10 +20,12 @@ process.on('unhandledRejection', (exception) => { throw exception });
 
 // ** Express Routes: Start ****************************************************
 const users = require('./routes/users');
+const login = require('./routes/login');
 const error = require('./middleware/error');
 
 app.use(express.json());
 app.use('/api/users', users);
+app.use('/api/login', login);
 app.use(error); // express default error handler
 // ** Express Routes: End ******************************************************
 

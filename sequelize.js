@@ -45,14 +45,14 @@ const sequelize = new Sequelize('database', 'username', 'password', {
   Category.hasMany(Quiz);
 
   // force: true will drop the table if it already exists
-  sequelize.sync(/*{ force: true }*/).then(() => {
-    console.log("Database and tables created");
-    // return User.create({
-    //   name: 'Tim',
-    //   email: 'test@email.com',
-    //   password_digest: 'test',
-    // });
-  });
+  // sequelize.sync({ force: true }).then(() => {
+  //   console.log("Database and tables created");
+  //   return User.create({
+  //     name: 'Tim',
+  //     email: 'test@email.com',
+  //     password_digest: 'test',
+  //   });
+  // });
 
   module.exports = {
     User,
