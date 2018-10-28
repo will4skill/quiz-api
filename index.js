@@ -19,11 +19,13 @@ process.on('unhandledRejection', (exception) => { throw exception });
 // ** Node Error Logging: End **************************************************
 
 // ** Express Routes: Start ****************************************************
+const categories = require('./routes/categories');
 const users = require('./routes/users');
 const login = require('./routes/login');
 const error = require('./middleware/error');
 
 app.use(express.json());
+app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/login', login);
 app.use(error); // express default error handler
