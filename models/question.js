@@ -7,10 +7,13 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     question: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      unique: true,
+      allowNull: false
     },
     answer: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   }, {underscored: true});
 };

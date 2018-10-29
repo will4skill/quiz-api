@@ -3,7 +3,7 @@ const generateAuthToken = require('../../utilities/tokenUtility');
 const server = require('../../index');
 const request = require('supertest')(server);
 
-describe('/api/muscles', () => {
+describe('/api/categories', () => {
   afterEach(async () => {
     await Category.destroy({ where: {} });
     // await server.close();
@@ -24,8 +24,8 @@ describe('/api/muscles', () => {
     });
 
     it('should return all categories (stat code 200)', async () => {
-      await Category.bulkCreate([ { name: 'books' }, { name: 'movies' }]);
-      const user = User.build({ admin: true });
+      await Category.bulkCreate([{ name: 'books' }, { name: 'movies' }]);
+      const user = User.build({ admin: false });
       const token = generateAuthToken(user);
 
       const res = await response(token);
