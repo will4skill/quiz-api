@@ -7,13 +7,18 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     title: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
     },
     description: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      unique: true,
     },
     difficulty: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      unique: true,
+      allowNull: false
     }
   }, {underscored: true});
 };
