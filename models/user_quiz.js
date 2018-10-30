@@ -7,10 +7,12 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     score: {
-      type: DataTypes.INTEGER
+      type: DataTypes.FLOAT,
+      allowNull: false
     },
     time: {
-      type: DataTypes.FLOAT
+      type: DataTypes.FLOAT,
+      allowNull: false
     }
   }, {underscored: true});
 };

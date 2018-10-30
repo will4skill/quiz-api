@@ -23,6 +23,7 @@ const categories = require('./routes/categories');
 const users = require('./routes/users');
 const login = require('./routes/login');
 const quizzes = require('./routes/quizzes');
+const user_quizzes = require('./routes/user_quizzes');
 const questions = require('./routes/questions');
 const error = require('./middleware/error');
 
@@ -31,6 +32,7 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/login', login);
 app.use('/api/quizzes', quizzes);
+app.use('/api/user-quizzes', user_quizzes);
 app.use('/api/questions', questions);
 app.use(error); // express default error handler
 // ** Express Routes: End ******************************************************

@@ -17,7 +17,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     difficulty: {
       type: DataTypes.INTEGER,
-      unique: true,
       allowNull: false
     }
   }, {underscored: true});

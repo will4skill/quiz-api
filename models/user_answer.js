@@ -7,10 +7,12 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     answer: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     correct: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {underscored: true});
 };

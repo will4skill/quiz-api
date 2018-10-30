@@ -32,6 +32,8 @@ const sequelize = new Sequelize('database', 'username', 'password', {
   const QuizQuestion = QuizQuestionModel(sequelize, Sequelize);
   const Question = QuestionModel(sequelize, Sequelize);
 
+
+
   // M - M
   User.belongsToMany(Quiz, {through: UserQuiz});
   Quiz.belongsToMany(User, {through: UserQuiz});
@@ -43,15 +45,17 @@ const sequelize = new Sequelize('database', 'username', 'password', {
   Question.belongsToMany(Quiz, {through: QuizQuestion});
   // 1 - M
   Category.hasMany(Quiz);
+  // 1 - M
+  UserQuiz.hasMany(UserAnswer); // Confirm cascade to UA on delete
 
   // force: true will drop the table if it already exists
   // sequelize.sync({ force: true }).then(() => {
   //   console.log("Database and tables created");
-  //   return User.create({
-  //     name: 'Tim',
-  //     email: 'test@email.com',
-  //     password_digest: 'test',
-  //   });
+  //   // return User.create({
+  //   //   name: 'Tim',
+  //   //   email: 'test@email.com',
+  //   //   password_digest: 'test',
+  //   // });
   // });
 
   module.exports = {
