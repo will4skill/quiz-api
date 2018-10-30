@@ -35,15 +35,17 @@ const sequelize = new Sequelize('database', 'username', 'password', {
   // M - M
   User.belongsToMany(Quiz, {through: UserQuiz}); // Problem: (user_id, quiz_id) UNIQUE
   Quiz.belongsToMany(User, {through: UserQuiz});
-  // M - M
+
+  // M - M (try to replace this with 2x m-m)
   UserQuiz.belongsToMany(Question, {through: UserAnswer});
   Question.belongsToMany(UserQuiz, {through: UserAnswer});
+
   // 1 - M
-  Quiz.hasMany(Question)
+  Quiz.hasMany(Question, {onDelete: 'cascade'}); // Confirm cascade to UA on delete
   // 1 - M
   Category.hasMany(Quiz);
   // 1 - M
-  UserQuiz.hasMany(UserAnswer); // Confirm cascade to UA on delete
+  UserQuiz.hasMany(UserAnswer);  // Confirm cascade to UA on delete
 
   // // force: true will drop the table if it already exists
   // sequelize.sync({ force: true }).then(() => {

@@ -64,7 +64,7 @@ router.delete('/:id', [auth, admin], async (req, res) => {
   if (!quiz) {
     res.status(404).send('Quiz ID not found');
   } else {
-    const deleted_quiz = await quiz.destroy();
+    const deleted_quiz = await quiz.destroy(); // Auto-deletes questions
     res.send(deleted_quiz);
   }
 });

@@ -24,6 +24,7 @@ const users = require('./routes/users');
 const login = require('./routes/login');
 const quizzes = require('./routes/quizzes');
 const user_quizzes = require('./routes/user_quizzes');
+const user_answers = require('./routes/user_answers');
 const questions = require('./routes/questions');
 const error = require('./middleware/error');
 
@@ -33,6 +34,7 @@ app.use('/api/users', users);
 app.use('/api/login', login);
 app.use('/api/quizzes', quizzes);
 app.use('/api/user-quizzes', user_quizzes);
+app.use('/api/user-answers', user_answers);
 app.use('/api/questions', questions);
 app.use(error); // express default error handler
 // ** Express Routes: End ******************************************************

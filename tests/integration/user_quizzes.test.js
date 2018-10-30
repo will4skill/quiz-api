@@ -560,7 +560,7 @@ describe('/api/user-quizzes', () => {
       expect(returned_user_answers).toEqual([]);
     });
 
-    it('should return deleted user_quiz and deleted associated user_answers ', async () => {
+    it('should return deleted user_quiz', async () => {
       const res = await response(user_quiz.id, token);
 
       expect(res.status).toBe(200);
@@ -569,15 +569,6 @@ describe('/api/user-quizzes', () => {
       expect(res.body).toHaveProperty('time', 20.00);
       expect(res.body).toHaveProperty('quiz_id', quiz.id);
       expect(res.body).toHaveProperty('user_id', user.id);
-
-      // expect(res.body.user_answers.length).toBe(2);
-      // expect(res.body.user_answers.some(ua => ua.user_quiz_id === user_quiz.id)).toBeTruthy();
-      // expect(res.body.user_answers.some(ua => ua.answer === 'Moo!')).toBeTruthy();
-      // expect(res.body.user_answers.some(ua => ua.correct === true)).toBeTruthy();
-      // expect(res.body.user_answers.some(ua => ua.question_id === question_1.id)).toBeTruthy();
-      // expect(res.body.user_answers.some(ua => ua.answer === 'Meow!')).toBeTruthy();
-      // expect(res.body.user_answers.some(ua => ua.correct === false)).toBeTruthy();
-      // expect(res.body.user_answers.some(ua => ua.question_id === question_2.id)).toBeTruthy();
     });
   });
 });

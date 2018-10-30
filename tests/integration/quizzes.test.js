@@ -325,7 +325,7 @@ describe('/api/quizzes', () => {
   });
 
   describe('DELETE /ID', () => {
-    let token, category, quiz, user;
+    let token, category_1, category_2, quiz, user;
     const response = async (id, jwt) => {
       return await request
         .delete('/api/quizzes/' + id)
@@ -335,13 +335,25 @@ describe('/api/quizzes', () => {
     beforeEach(async() => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
-      category = await Category.create({ name: 'School' });
+      category_1 = await Category.create({ name: 'School' });
+      category_2 = await Category.create({ name: 'Sports' });
       quiz = await Quiz.create({
         title: 'Solar System',
         description: 'Test your Solar System Knowledge',
         difficulty: 5,
-        category_id: category.id
+        category_id: category_1.id
       });
+      other_quiz = await Quiz.create({
+        title: 'Basketball',
+        description: 'Test your Basketball Knowledge',
+        difficulty: 10,
+        category_id: category_2.id
+      });
+      await Question.bulkCreate([
+        { quiz_id: quiz.id, question: 'What does the cow say?', answer: 'Moo!' },
+        { quiz_id: quiz.id, question: 'What does the cat say?', answer: 'Meow!' },
+        { quiz_id: other_quiz.id, question: "What is Harden's number?", answer: '13' }
+      ]);
     });
 
     it('should return 401 if client not logged in', async () => {
@@ -373,11 +385,13 @@ describe('/api/quizzes', () => {
       expect(res.status).toBe(404);
     });
 
-    it('should delete quiz if input is valid', async () => {
+    it('should delete quiz and associated questions if input is valid', async () => {
       const res = await response(quiz.id, token);
-      const result = await Quiz.findOne({ where: { id: quiz.id } });
+      const returned_quiz = await Quiz.findOne({ where: { id: quiz.id } });
+      const returned_questions = await Question.findAll({ where: { quiz_id: quiz.id } });
 
-      expect(result).toBeNull();
+      expect(returned_quiz).toBeNull();
+      expect(returned_questions).toEqual([]);
     });
 
     it('should return deleted quiz', async () => {
@@ -388,7 +402,7 @@ describe('/api/quizzes', () => {
       expect(res.body).toHaveProperty('title', 'Solar System');
       expect(res.body).toHaveProperty('description', 'Test your Solar System Knowledge');
       expect(res.body).toHaveProperty('difficulty', 5);
-      expect(res.body).toHaveProperty('category_id', category.id);
+      expect(res.body).toHaveProperty('category_id', category_1.id);
     });
   });
 });
