@@ -6,10 +6,6 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const generateAuthToken = require('../utilities/tokenUtility');
 
-// *** Move to Utilities ***
-
-// **********************************
-
 router.get('/', [auth, admin], async (req, res) => {
   const users = await User.findAll();
   res.send(users);

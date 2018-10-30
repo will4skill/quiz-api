@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
-const { Quiz, Category } = require('../sequelize');
+const { Quiz, Question, Category } = require('../sequelize');
+const Sequelize = require('sequelize');
 
 router.get('/', auth, async (req, res) => {
   const quizzes = await Quiz.findAll();
@@ -27,7 +28,10 @@ router.post('/', [auth, admin], async (req, res) => {
 });
 
 router.get('/:id', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.id } });
+  const quiz = await Quiz.findOne({
+    where: { id: req.params.id },
+    include: [{ model: Question, where: { quiz_id: Sequelize.col('quiz.id')} }]
+  });
   if (!quiz) {
     res.status(404).send('Quiz with submitted ID not found');
   } else {

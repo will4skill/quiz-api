@@ -1,4 +1,4 @@
-const { Quiz, Category, User } = require('../../sequelize');
+const { Quiz, Question, Category, User } = require('../../sequelize');
 const generateAuthToken = require('../../utilities/tokenUtility');
 const server = require('../../index');
 const request = require('supertest')(server);
@@ -7,6 +7,7 @@ describe('/api/quizzes', () => {
   afterEach(async () => {
     await Quiz.destroy({ where: {} });
     await Category.destroy({ where: {} });
+    await Question.destroy({ where: {} });
   });
 
   describe('GET /', () => {
@@ -142,7 +143,7 @@ describe('/api/quizzes', () => {
   });
 
   describe('GET /ID', () => {
-    let token, category, quiz, user;
+    let token, category_1, category_2, quiz, other_quiz, user;
     const response = async (id, jwt) => {
       return await request
         .get('/api/quizzes/' + id)
@@ -152,13 +153,25 @@ describe('/api/quizzes', () => {
     beforeEach(async() => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
-      category = await Category.create({ name: 'School' });
+      category_1 = await Category.create({ name: 'School' });
+      category_2 = await Category.create({ name: 'Sports' });
       quiz = await Quiz.create({
         title: 'Solar System',
         description: 'Test your Solar System Knowledge',
         difficulty: 5,
-        category_id: category.id
+        category_id: category_1.id
       });
+      other_quiz = await Quiz.create({
+        title: 'Basketball',
+        description: 'Test your Basketball Knowledge',
+        difficulty: 10,
+        category_id: category_2.id
+      });
+      await Question.bulkCreate([
+        { quiz_id: quiz.id, question: 'What does the cow say?', answer: 'Moo!' },
+        { quiz_id: quiz.id, question: 'What does the cat say?', answer: 'Meow!' },
+        { quiz_id: other_quiz.id, question: "What is Harden's number?", answer: '13' }
+      ]);
     });
 
     it('should return 401 if client not logged in', async () => {
@@ -198,7 +211,14 @@ describe('/api/quizzes', () => {
       expect(res.body).toHaveProperty('title', 'Solar System');
       expect(res.body).toHaveProperty('description', 'Test your Solar System Knowledge');
       expect(res.body).toHaveProperty('difficulty', 5);
-      expect(res.body).toHaveProperty('category_id', category.id);
+      expect(res.body).toHaveProperty('category_id', category_1.id);
+
+      expect(res.body.questions.length).toBe(2);
+      expect(res.body.questions.some(q => q.quiz_id === quiz.id)).toBeTruthy();
+      expect(res.body.questions.some(q => q.question === 'What does the cow say?')).toBeTruthy();
+      expect(res.body.questions.some(q => q.answer === 'Moo!')).toBeTruthy();
+      expect(res.body.questions.some(q => q.question === 'What does the cat say?')).toBeTruthy();
+      expect(res.body.questions.some(q => q.answer === 'Meow!')).toBeTruthy();
     });
   });
 
