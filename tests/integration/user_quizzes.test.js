@@ -111,7 +111,7 @@ describe('/api/user-quizzes', () => {
   });
 
   describe('POST /', () => {
-    let user, token, user_quiz_object, quiz;
+    let user, token, user_quiz_object, quiz, question_1, question_2;
 
     const response = async (object, jwt) => {
       return await request
@@ -134,11 +134,23 @@ describe('/api/user-quizzes', () => {
         difficulty: 5,
         category_id: category.id
       });
+      question_1 = await Question.create({
+        question: 'What does the cow say?',
+        answer: 'Moo!'
+      });
+      question_2 = await Question.create({
+        question: 'What does the pig say?',
+        answer: 'Oink!'
+      });
       user_quiz_object = {
         score: 1.00,
-        time: 20.00,
+        time: 12.34,
         quiz_id: quiz.id,
-        user_id: user.id
+        user_id: user.id,
+        user_answers: [
+          { question_id: question_1.id, answer: "Moo!", correct: true },
+          { question_id: question_2.id, answer: "Meow!", correct: false }
+        ]
       };
     });
 
@@ -170,15 +182,41 @@ describe('/api/user-quizzes', () => {
       expect(res.status).toBe(400);
     });
 
-    it('should save user_quiz if user_quiz is valid', async () => {
+    it('should return 400 if any user_answer is invalid', async () => {
+      user_quiz_object = {
+        score: 1.00,
+        time: 12.34,
+        quiz_id: quiz.id,
+        user_id: user.id,
+        user_answers: [
+          { question_id: question_1.id, answer: "Moo!", correct: true },
+          { }
+        ]
+      };
       const res = await response(user_quiz_object, token);
-      const user_quiz = await UserQuiz.findOne({ where: user_quiz_object });
+
+      expect(res.status).toBe(400);
+    });
+
+    it('should save user_quiz and user_answers if they are valid', async () => {
+      const res = await response(user_quiz_object, token);
+      const user_quiz = await UserQuiz.findOne({ where: { time: 12.34 } });
+      const user_answer_1 = await UserAnswer.findOne({ where: { answer: "Moo!" } });
+      const user_answer_2 = await UserAnswer.findOne({ where: { answer: "Meow!" } });
 
       expect(user_quiz).toHaveProperty('id');
       expect(user_quiz).toHaveProperty('score', 1.00);
-      expect(user_quiz).toHaveProperty('time', 20.00);
+      expect(user_quiz).toHaveProperty('time', 12.34);
       expect(user_quiz).toHaveProperty('quiz_id', quiz.id);
       expect(user_quiz).toHaveProperty('user_id', user.id);
+
+      expect(user_answer_1).toHaveProperty('answer', 'Moo!');
+      expect(user_answer_1).toHaveProperty('correct', true);
+      expect(user_answer_1).toHaveProperty('question_id', question_1.id);
+
+      expect(user_answer_2).toHaveProperty('answer', 'Meow!');
+      expect(user_answer_2).toHaveProperty('correct', false);
+      expect(user_answer_2).toHaveProperty('question_id', question_2.id);
     });
 
     it('should return user_quiz if user_quiz is valid', async () => {
@@ -187,7 +225,7 @@ describe('/api/user-quizzes', () => {
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('id');
       expect(res.body).toHaveProperty('score', 1.00);
-      expect(res.body).toHaveProperty('time', 20.00);
+      expect(res.body).toHaveProperty('time', 12.34);
       expect(res.body).toHaveProperty('quiz_id', quiz.id);
       expect(res.body).toHaveProperty('user_id', user.id);
     });
@@ -251,7 +289,8 @@ describe('/api/user-quizzes', () => {
           correct: true,
           question_id: question_1.id
         },
-        { user_quiz_id: user_quiz.id,
+        {
+          user_quiz_id: user_quiz.id,
           answer: "Meow!",
           correct: false,
           question_id: question_2.id
