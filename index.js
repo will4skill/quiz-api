@@ -33,9 +33,10 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/login', login);
 app.use('/api/quizzes', quizzes);
+  app.use('/api/quizzes', questions); // questions is nested
 app.use('/api/user-quizzes', user_quizzes);
-app.use('/api/user-quizzes', user_answers); // user-answers is nested
-app.use('/api/questions', questions);
+  app.use('/api/user-quizzes', user_answers); // user-answers is nested
+
 app.use(error); // express default error handler
 // ** Express Routes: End ******************************************************
 
