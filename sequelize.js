@@ -8,11 +8,12 @@ const UserAnswerModel = require('./models/user_answer');
 const QuizModel = require('./models/quiz');
 const CategoryModel = require('./models/category');
 const QuestionModel = require('./models/question');
+let sequelize;
 
 if (process.env.NODE_ENV === 'production') {
   sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' });
 } else {
-  const sequelize = new Sequelize('database', 'username', 'password', {
+  sequelize = new Sequelize('database', 'username', 'password', {
     dialect: 'sqlite',
     storage: db
   });
