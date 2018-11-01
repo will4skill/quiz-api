@@ -24,7 +24,7 @@ describe('/:userQuizId/user-answers/', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       category = await Category.create({ name: 'School' });
@@ -44,14 +44,12 @@ describe('/:userQuizId/user-answers/', () => {
         quiz_id: quiz.id,
         user_id: user.id
       });
-
       user_answer = await UserAnswer.create({
         answer: 'Oink!',
         correct: false,
         user_quiz_id: user_quiz.id,
         question_id: question.id
       });
-
       updated_user_answer = {
         answer: 'Moo!',
         correct: true,
@@ -117,7 +115,7 @@ describe('/:userQuizId/user-answers/', () => {
     });
 
     it('should return 400 if user_answer is invalid', async () => {
-      updated_user_answer = {};
+      updated_user_answer = { question_id: question.id };
       const res = await response(updated_user_answer, token, user_quiz.id, user_answer.id);
 
       expect(res.status).toBe(400);
@@ -125,13 +123,13 @@ describe('/:userQuizId/user-answers/', () => {
 
     it('should update user_answer if input is valid', async () => {
       const res = await response(updated_user_answer, token, user_quiz.id, user_answer.id);
-      const updated_ua = await UserAnswer.findById(user_answer.id);
+      const result = await UserAnswer.findById(user_answer.id);
 
-      expect(updated_ua).toHaveProperty('id', user_answer.id);
-      expect(updated_ua).toHaveProperty('answer', 'Moo!');
-      expect(updated_ua).toHaveProperty('correct', true);
-      expect(updated_ua).toHaveProperty('user_quiz_id', user_quiz.id);
-      expect(updated_ua).toHaveProperty('question_id', question.id);
+      expect(result).toHaveProperty('id', user_answer.id);
+      expect(result).toHaveProperty('answer', 'Moo!');
+      expect(result).toHaveProperty('correct', true);
+      expect(result).toHaveProperty('user_quiz_id', user_quiz.id);
+      expect(result).toHaveProperty('question_id', question.id);
     });
 
     it('should return updated user_answer if it is valid', async () => {
@@ -148,13 +146,14 @@ describe('/:userQuizId/user-answers/', () => {
 
   describe('DELETE /ID', () => {
     let token, category, quiz, question, user, user_quiz, user_answer;
+
     const response = async (userQuizId, id, jwt) => {
       return await request
         .delete(`/api/user-quizzes/${userQuizId}/user-answers/${id}`)
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       category = await Category.create({ name: 'School' });
@@ -174,7 +173,6 @@ describe('/:userQuizId/user-answers/', () => {
         quiz_id: quiz.id,
         user_id: user.id
       });
-
       user_answer = await UserAnswer.create({
         answer: 'Oink!',
         correct: false,

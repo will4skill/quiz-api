@@ -20,7 +20,7 @@ describe('/api/quizzes/:quizId/questions', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       const category = await Category.create({ name: 'School' });
@@ -30,7 +30,6 @@ describe('/api/quizzes/:quizId/questions', () => {
         difficulty: 5,
         category_id: category.id
       });
-
       await Question.bulkCreate([
         { quiz_id: quiz.id, question: 'What does the cow say?', answer: 'Moo!' },
         { quiz_id: quiz.id, question: 'What does the cat say?', answer: 'Meow!' }
@@ -89,7 +88,7 @@ describe('/api/quizzes/:quizId/questions', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       const category = await Category.create({ name: 'School' });
@@ -99,7 +98,6 @@ describe('/api/quizzes/:quizId/questions', () => {
         difficulty: 5,
         category_id: category.id
       });
-
       question_object = { question: 'What does the cow say?', answer: 'Moo!' };
     });
 
@@ -168,7 +166,7 @@ describe('/api/quizzes/:quizId/questions', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       const category = await Category.create({ name: 'School' });
@@ -248,7 +246,7 @@ describe('/api/quizzes/:quizId/questions', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       const category = await Category.create({ name: 'School' });
@@ -343,7 +341,7 @@ describe('/api/quizzes/:quizId/questions', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach( async() => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       const category = await Category.create({ name: 'School' });

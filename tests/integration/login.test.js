@@ -10,8 +10,7 @@ describe('/api/login', () => {
   });
 
   describe('POST /', () => {
-    let user, token, salt,
-    digest, user_object;
+    let user, token, salt, digest, user_object;
 
     const response = async (object) => {
       return await request
@@ -19,10 +18,9 @@ describe('/api/login', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       salt = await bcrypt.genSalt(10);
       digest = await bcrypt.hash('123456', salt);
-
       user = User.build({
         name: 'bob',
         email: 'bob@example.com',
@@ -30,7 +28,6 @@ describe('/api/login', () => {
       });
       await user.save();
       token = generateAuthToken(user);
-
       user_object = { email: 'bob@example.com', password: '123456' };
     });
 

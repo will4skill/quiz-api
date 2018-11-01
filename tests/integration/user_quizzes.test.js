@@ -23,7 +23,7 @@ describe('/api/user-quizzes', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: "bob",
         email: "bob@example.com",
@@ -120,7 +120,7 @@ describe('/api/user-quizzes', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: "bob",
         email: "bob@example.com",
@@ -246,7 +246,7 @@ describe('/api/user-quizzes', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: "bob",
         email: "bob@example.com",
@@ -285,7 +285,6 @@ describe('/api/user-quizzes', () => {
         quiz_id: quiz.id,
         user_id: other_user.id
       });
-
       user_answers = [
         {
           user_quiz_id: user_quiz.id,
@@ -368,7 +367,7 @@ describe('/api/user-quizzes', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: "bob",
         email: "bob@example.com",
@@ -465,13 +464,13 @@ describe('/api/user-quizzes', () => {
 
     it('should update user_quiz if input is valid', async () => {
       const res = await response(user_quiz_object, user_quiz.id, token);
-      const updated_user_quiz = await UserQuiz.findOne({ where: user_quiz_object });
+      const result = await UserQuiz.findOne({ where: user_quiz_object });
 
-      expect(updated_user_quiz).toHaveProperty('id', user_quiz.id);
-      expect(updated_user_quiz).toHaveProperty('score', 1.00);
-      expect(updated_user_quiz).toHaveProperty('time', 35.00);
-      expect(updated_user_quiz).toHaveProperty('quiz_id', quiz.id);
-      expect(updated_user_quiz).toHaveProperty('user_id', user.id);
+      expect(result).toHaveProperty('id', user_quiz.id);
+      expect(result).toHaveProperty('score', 1.00);
+      expect(result).toHaveProperty('time', 35.00);
+      expect(result).toHaveProperty('quiz_id', quiz.id);
+      expect(result).toHaveProperty('user_id', user.id);
     });
 
     it('should return updated user_quiz if it is valid', async () => {
@@ -497,7 +496,7 @@ describe('/api/user-quizzes', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: "bob",
         email: "bob@example.com",
@@ -537,7 +536,6 @@ describe('/api/user-quizzes', () => {
         quiz_id: quiz.id,
         user_id: other_user.id
       });
-
       user_answers = [
         {
           user_quiz_id: user_quiz.id,
@@ -596,8 +594,10 @@ describe('/api/user-quizzes', () => {
 
     it('should delete user_quiz and associated user_answers if input is valid', async () => {
       const res = await response(user_quiz.id, token);
-      const returned_user_quiz = await UserQuiz.findOne({ where: { id: user_quiz.id } });
-      const returned_user_answers = await UserAnswer.findAll({ where: { user_quiz_id: user_quiz.id } });
+      const returned_user_quiz = await UserQuiz.findById(user_quiz.id);
+      const returned_user_answers = await UserAnswer.findAll({
+        where: { user_quiz_id: user_quiz.id }
+      });
 
       expect(returned_user_quiz).toBeNull();
       expect(returned_user_answers).toEqual([]);

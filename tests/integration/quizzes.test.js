@@ -19,7 +19,7 @@ describe('/api/quizzes', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       category = await Category.create({ name: 'School' });
       await Quiz.bulkCreate([
           {
@@ -71,7 +71,7 @@ describe('/api/quizzes', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       category = await Category.create({ name: 'School' });
@@ -99,7 +99,7 @@ describe('/api/quizzes', () => {
     });
 
     it('should return 400 if quiz is invalid', async () => {
-      quiz_object = {};
+      quiz_object = { category_id: category.id };
       const res = await response(quiz_object, token);
 
       expect(res.status).toBe(400);
@@ -150,7 +150,7 @@ describe('/api/quizzes', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       category_1 = await Category.create({ name: 'School' });
@@ -232,7 +232,7 @@ describe('/api/quizzes', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       category = await Category.create({ name: 'School' });
@@ -332,7 +332,7 @@ describe('/api/quizzes', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       category_1 = await Category.create({ name: 'School' });
