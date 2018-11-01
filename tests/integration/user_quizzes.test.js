@@ -176,7 +176,11 @@ describe('/api/user-quizzes', () => {
     });
 
     it('should return 400 if user_quiz is invalid', async () => {
-      user_quiz_object = {};
+      user_quiz_object = {
+        quiz_id: quiz.id,
+        user_id: user.id,
+        user_answers: []
+      };
       const res = await response(user_quiz_object, token);
 
       expect(res.status).toBe(400);
@@ -453,7 +457,7 @@ describe('/api/user-quizzes', () => {
     });
 
     it('should return 400 if user_quiz is invalid', async () => {
-      user_quiz_object = {};
+      user_quiz_object = { quiz_id: quiz.id };
       const res = await response(user_quiz_object, user_quiz.id, token);
 
       expect(res.status).toBe(400);

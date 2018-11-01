@@ -2,22 +2,18 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const { findQuiz } = require('../middleware/find');
 const { Question, Quiz } = require('../sequelize');
+const prefix = "/:quizId/questions";
 
-router.get('/:quizId/questions', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.quizId } });
-  if (!quiz) return res.status(400).send('Invalid Quiz');
-
+router.get(`${prefix}/`, [auth, admin, findQuiz], async (req, res) => {
   const questions = await Question.findAll({
     where: { quiz_id: req.params.quizId }
   });
   res.send(questions);
 });
 
-router.post('/:quizId/questions', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.quizId } });
-  if (!quiz) return res.status(400).send('Invalid Quiz');
-
+router.post(`${prefix}/`, [auth, admin, findQuiz], async (req, res) => {
   try {
     const question = await Question.create({
       quiz_id: req.params.quizId,
@@ -30,25 +26,19 @@ router.post('/:quizId/questions', [auth, admin], async (req, res) => {
   }
 });
 
-router.get('/:quizId/questions/:id', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.quizId } });
-  if (!quiz) return res.status(400).send('Invalid Quiz');
-
-  const question = await Question.findOne({ where: { id: req.params.id } });
+router.get(`${prefix}/:id`, [auth, admin, findQuiz], async (req, res) => {
+  const question = await Question.findById(req.params.id);
   if (!question) {
-    res.status(404).send('Question with submitted ID not found');
-  } else {
-    res.send(question);
+    return res.status(404).send('Question with submitted ID not found');
   }
+  res.send(question);
 });
 
-router.put('/:quizId/questions/:id', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.quizId } });
-  if (!quiz) return res.status(400).send('Invalid Quiz');
-
-  const question = await Question.findOne({ where: { id: req.params.id } });
-  if (!question) return res.status(404).send('Question with submitted ID not found');
-
+router.put(`${prefix}/:id`, [auth, admin, findQuiz], async (req, res) => {
+  const question = await Question.findById(req.params.id);
+  if (!question) {
+    return res.status(404).send('Question with submitted ID not found');
+  }
   try {
     const updated_question = await question.update({
       question: req.body.question,
@@ -60,17 +50,13 @@ router.put('/:quizId/questions/:id', [auth, admin], async (req, res) => {
   }
 });
 
-router.delete('/:quizId/questions/:id', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.quizId } });
-  if (!quiz) return res.status(400).send('Invalid Quiz');
-
-  const question = await Question.findOne({ where: { id: req.params.id } });
+router.delete(`${prefix}/:id`, [auth, admin, findQuiz], async (req, res) => {
+  const question = await Question.findById(req.params.id);
   if (!question) {
-    res.status(404).send('Question ID not found');
-  } else {
-    const deleted_question = await question.destroy();
-    res.send(deleted_question);
+    return res.status(404).send('Question with submitted ID not found');
   }
+  const deleted_question = await question.destroy();
+  res.send(deleted_question);
 });
 
 module.exports = router;

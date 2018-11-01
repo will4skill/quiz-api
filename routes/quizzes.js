@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const { findCategory } = require('../middleware/find');
 const { Quiz, Question, Category } = require('../sequelize');
 const Sequelize = require('sequelize');
 
@@ -10,16 +11,13 @@ router.get('/', auth, async (req, res) => {
   res.send(quizzes);
 });
 
-router.post('/', [auth, admin], async (req, res) => {
-  const category = await Category.findOne({ where: { id: req.body.category_id } });
-  if (!category) return res.status(400).send('Invalid Category');
-
+router.post('/', [auth, admin, findCategory], async (req, res) => {
   try {
     const quiz = await Quiz.create({
       title: req.body.title,
       description: req.body.description,
       difficulty: req.body.difficulty,
-      category_id: req.body.category_id
+      category_id: req.category.id
     });
     res.send(quiz);
   } catch (err) {
@@ -39,19 +37,16 @@ router.get('/:id', [auth, admin], async (req, res) => {
   }
 });
 
-router.put('/:id', [auth, admin], async (req, res) => {
+router.put('/:id', [auth, admin, findCategory], async (req, res) => {
   const quiz = await Quiz.findOne({ where: { id: req.params.id } });
   if (!quiz) return res.status(404).send('Quiz with submitted ID not found');
-
-  const category = await Category.findOne({ where: { id: req.body.category_id } });
-  if (!category) return res.status(400).send('Invalid Category');
 
   try {
     const updated_quiz = await quiz.update({
       title: req.body.title,
       description: req.body.description,
       difficulty: req.body.difficulty,
-      category_id: req.body.category_id
+      category_id: req.category.id
     });
     res.send(updated_quiz);
   } catch(err) {
@@ -60,13 +55,11 @@ router.put('/:id', [auth, admin], async (req, res) => {
 });
 
 router.delete('/:id', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.id } });
-  if (!quiz) {
-    res.status(404).send('Quiz ID not found');
-  } else {
-    const deleted_quiz = await quiz.destroy(); // Auto-deletes questions
-    res.send(deleted_quiz);
-  }
+  const quiz = await Quiz.findOne({ where: { id: req.params.id } }); //****
+  if (!quiz) return res.status(404).send('Quiz ID not found');
+
+  const deleted_quiz = await quiz.destroy(); // Auto-deletes questions
+  res.send(deleted_quiz);
 });
 
 module.exports = router;

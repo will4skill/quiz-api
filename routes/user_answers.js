@@ -2,17 +2,15 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const { findQuestion, findUserQuiz } = require('../middleware/find');
 const { UserAnswer, UserQuiz, Question } = require('../sequelize');
+const prefix = '/:userQuizId/user-answers';
 
-router.put('/:userQuizId/user-answers/:id', [auth, admin], async (req, res) => {
+router.put(`${prefix}/:id`, [auth, admin, findQuestion, findUserQuiz], async (req, res) => {
   const user_answer = await UserAnswer.findOne({ where: { id: req.params.id } });
-  if (!user_answer) return res.status(404).send('User Answer with submitted ID not found');
-
-  const user_quiz = await UserQuiz.findOne({ where: { id: req.params.userQuizId } });
-  if (!user_quiz) return res.status(400).send('Invalid User Quiz');
-
-  const question = await Question.findOne({ where: { id: req.body.question_id } });
-  if (!question) return res.status(400).send('Invalid Question');
+  if (!user_answer) {
+    return res.status(404).send('User Answer with submitted ID not found');
+  }
 
   try {
     const updated_user_answer = await user_answer.update({
@@ -26,17 +24,13 @@ router.put('/:userQuizId/user-answers/:id', [auth, admin], async (req, res) => {
   }
 });
 
-router.delete('/:userQuizId/user-answers/:id', [auth, admin], async (req, res) => {
-  const user_quiz = await UserQuiz.findOne({ where: { id: req.params.userQuizId } });
-  if (!user_quiz) return res.status(400).send('Invalid User Quiz');
-
+router.delete(`${prefix}/:id`, [auth, admin, findUserQuiz], async (req, res) => {
   const user_answer = await UserAnswer.findOne({ where: { id: req.params.id } });
   if (!user_answer) {
-    res.status(404).send('User Answer ID not found');
-  } else {
-    const deleted_user_answer = await user_answer.destroy();
-    res.send(deleted_user_answer);
+    return res.status(404).send('User Answer with submitted ID not found');
   }
+  const deleted_user_answer = await user_answer.destroy();
+  res.send(deleted_user_answer);
 });
 
 module.exports = router;

@@ -19,9 +19,10 @@ router.post('/', [auth, admin], async (req, res) => {
 });
 
 router.put('/:id', [auth, admin], async (req, res) => {
-  const category = await Category.findOne({ where: { id: req.params.id } });
-  if (!category) return res.status(404).send('Category with submitted ID not found');
-
+  const category = await Category.findById(req.params.id);
+  if (!category) {
+    return res.status(404).send('Category with submitted ID not found');
+  }
   try {
     const updated_category = await category.update({ name: req.body.name });
     res.send(updated_category);
@@ -31,13 +32,12 @@ router.put('/:id', [auth, admin], async (req, res) => {
 });
 
 router.delete('/:id', [auth, admin], async (req, res) => {
-  const category = await Category.findOne({ where: { id: req.params.id } });
+  const category = await Category.findById(req.params.id);
   if (!category) {
-    res.status(404).send('Category ID not found');
-  } else {
-    const deleted_category = await category.destroy();
-    res.send(deleted_category);
+    return res.status(404).send('Category with submitted ID not found');
   }
+  const deleted_category = await category.destroy();
+  res.send(deleted_category);
 });
 
 module.exports = router;

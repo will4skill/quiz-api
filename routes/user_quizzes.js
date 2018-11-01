@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const { findQuiz } = require('../middleware/find');
 const { sequelize, UserQuiz, UserAnswer, Quiz } = require('../sequelize');
 
 router.get('/', auth, async (req, res) => {
@@ -9,10 +10,7 @@ router.get('/', auth, async (req, res) => {
   res.send(user_quizzes);
 });
 
-router.post('/', auth, async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.body.quiz_id } });
-  if (!quiz) return res.status(400).send('Invalid Quiz');
-
+router.post('/', [auth, findQuiz], async (req, res) => {
   let user_quiz = UserQuiz.build({
     score: req.body.score,
     time: req.body.time,
@@ -52,17 +50,14 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-router.put('/:id', [auth, admin], async (req, res) => {
+router.put('/:id', [auth, admin, findQuiz], async (req, res) => {
 
-  let user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } });
+  let user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } }); //****
   if (!user_quiz) {
     return res.status(404).send('UserQuiz with submitted ID not found');
   } else if (req.user.id !== user_quiz.user_id) {
     return res.status(403).send('Forbidden');
   }
-
-  const quiz = await Quiz.findOne({ where: { id: req.body.quiz_id } });
-  if (!quiz) return res.status(400).send('Invalid Quiz');
 
   try {
     const updated_user_quiz = await user_quiz.update({
@@ -78,7 +73,7 @@ router.put('/:id', [auth, admin], async (req, res) => {
 });
 
 router.delete('/:id', [auth, admin], async (req, res) => {
-  const user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } });
+  const user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } }); //****
   if (!user_quiz) {
     res.status(404).send('UserQuiz ID not found');
   } else {// Check for current user
