@@ -1,4 +1,5 @@
-const { User, UserQuiz, UserAnswer, Quiz, Category, Question } = require('../sequelize');
+const { User, UserQuiz, UserAnswer,
+        Quiz, Category, Question } = require('../sequelize');
 
 async function findCategory(req, res, next) {
   const category = await Category.findById(req.body.category_id);

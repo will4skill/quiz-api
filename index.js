@@ -3,9 +3,8 @@ const app = express();
 const winston = require('winston');
 const config = require('config');
 require('express-async-errors'); // replaces try-catch blocks in route handlers
-
-// const helmet = require('helmet');
-// const compression = require('compression');
+const helmet = require('helmet');
+const compression = require('compression');
 
 // ** Node Error Logging: Start ************************************************
 const logger = winston.createLogger({
@@ -39,12 +38,6 @@ app.use('/api/user-quizzes', user_quizzes);
 
 app.use(error); // express default error handler
 // ** Express Routes: End ******************************************************
-
-// ** Database Setup: Start ****************************************************
-// const db = config.get('db');
-// mongoose.connect(db, { useNewUrlParser: true })
-//   .then(() => logger.info(`Connected to ${db}...`));
-// ** Database Setup: End ******************************************************
 
 // ** Private Key Setup: Start *************************************************
 if (!config.get('jwt_private_key')) {

@@ -32,9 +32,9 @@ const sequelize = new Sequelize('database', 'username', 'password', {
 
   User.hasMany(UserQuiz);
   Quiz.hasMany(UserQuiz);
-  Quiz.hasMany(Question, {onDelete: 'cascade'}); // Confirm cascade to UA on delete
+  Quiz.hasMany(Question, {onDelete: 'cascade'});
   Category.hasMany(Quiz);
-  UserQuiz.hasMany(UserAnswer, {onDelete: 'cascade'});  // Confirm cascade to UA on delete
+  UserQuiz.hasMany(UserAnswer, {onDelete: 'cascade'});
   Question.hasMany(UserAnswer);
 
   // // force: true will drop the table if it already exists

@@ -9,7 +9,6 @@ describe('/api/quizzes/:quizId/questions', () => {
     await User.destroy({ where: {} });
     await Quiz.destroy({ where: {} });
     await Category.destroy({ where: {} });
-    // await server.close();
   });
 
   describe('GET /', () => {

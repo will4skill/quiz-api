@@ -52,7 +52,7 @@ router.get('/:id', auth, async (req, res) => {
 
 router.put('/:id', [auth, admin, findQuiz], async (req, res) => {
 
-  let user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } }); //****
+  let user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } });
   if (!user_quiz) {
     return res.status(404).send('UserQuiz with submitted ID not found');
   } else if (req.user.id !== user_quiz.user_id) {
@@ -73,7 +73,7 @@ router.put('/:id', [auth, admin, findQuiz], async (req, res) => {
 });
 
 router.delete('/:id', [auth, admin], async (req, res) => {
-  const user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } }); //****
+  const user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } });
   if (!user_quiz) {
     res.status(404).send('UserQuiz ID not found');
   } else {// Check for current user

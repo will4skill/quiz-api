@@ -6,7 +6,6 @@ const generateAuthToken = require('../../utilities/tokenUtility');
 describe('/api/users', () => {
   afterEach(async () => {
     await User.destroy({ where: {} });
-    // await server.close();
   });
 
   describe('GET /', () => {

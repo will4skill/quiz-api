@@ -55,7 +55,7 @@ router.put('/:id', [auth, admin, findCategory], async (req, res) => {
 });
 
 router.delete('/:id', [auth, admin], async (req, res) => {
-  const quiz = await Quiz.findOne({ where: { id: req.params.id } }); //****
+  const quiz = await Quiz.findOne({ where: { id: req.params.id } });
   if (!quiz) return res.status(404).send('Quiz ID not found');
 
   const deleted_quiz = await quiz.destroy(); // Auto-deletes questions

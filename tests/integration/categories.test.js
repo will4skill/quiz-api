@@ -6,7 +6,6 @@ const request = require('supertest')(server);
 describe('/api/categories', () => {
   afterEach(async () => {
     await Category.destroy({ where: {} });
-    // await server.close();
   });
 
   describe('GET /', () => {
