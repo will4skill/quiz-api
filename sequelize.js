@@ -10,16 +10,13 @@ const CategoryModel = require('./models/category');
 const QuestionModel = require('./models/question');
 
 if (process.env.NODE_ENV === 'production') {
-  sequelize = new Sequelize(process.env.HEROKU_POSTGRESQL_BRONZE_URL, {
-    dialect: 'postgres',
-  });
+  sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' });
 } else {
   const sequelize = new Sequelize('database', 'username', 'password', {
     dialect: 'sqlite',
     storage: db
   });
 }
-
 
 const User = UserModel(sequelize, Sequelize);
 const UserQuiz = UserQuizModel(sequelize, Sequelize);
