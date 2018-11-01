@@ -44,7 +44,7 @@ Additional resources that helped me:
 
 ## App Structure
 <p align="center">
-  <img alt="Image of App Structure" src="https://raw.github.com/jtimwill/workout_api/master/images/Quiz-API-diagram.png" />
+  <img alt="Image of App Structure" src="https://raw.github.com/jtimwill/quiz_api/master/images/Quiz-API-diagram.png" />
 </p>
 
 ## Entity Relationship Diagram
