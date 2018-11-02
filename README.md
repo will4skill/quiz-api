@@ -15,7 +15,7 @@ The basic technology stack is:
 3. ``` $ cd quiz-api ``` # navigate to project's root directory
 4. ``` $ npm i ``` # install the packages listed in package.json
 5. From the command line, set the value of the jwt_private_key environment variable (this private key is used to create the JSON Web tokens that allow users to securely log in to the application.)
-  * Example (Mac): ``` $ export quiz_api_jwt_private_key=your_private_key ```
+    * Example (Mac): ``` $ export quiz_api_jwt_private_key=your_private_key ```
 6. ``` $ node sequelize.js ``` # Create development database
 7. ``` $ node seed_db ``` # seed the database with quizzes
 8. ``` $ NODE_ENV=test node sequelize.js ``` # Create test database
