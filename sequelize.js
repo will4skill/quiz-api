@@ -33,14 +33,8 @@ Category.hasMany(Quiz);
 UserQuiz.hasMany(UserAnswer, {onDelete: 'cascade'});
 Question.hasMany(UserAnswer);
 
-// force: true will drop the table if it already exists
 sequelize.sync().then(() => {
   console.log("Database and tables created");
-  // return User.create({
-  //   name: 'Tim',
-  //   email: 'test@email.com',
-  //   password_digest: 'test',
-  // });
 });
 
 module.exports = {
