@@ -72,7 +72,7 @@ Additional resources that helped me:
 |---|---|---|---|
 /api/categories|POST|create a new category|Yes|
 /api/categories|GET|return all categories|No|
-/api/categories/:idPUT|update a specific category|Yes|
+/api/categories/:id|PUT|update a specific category|Yes|
 /api/categories/:id|DELETE|delete a specific category|Yes|
 
 ### Quiz Resource
