@@ -565,11 +565,6 @@ describe('/api/user-quizzes', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return 403 if user is not current user', async () => {
-      const res = await response(other_user_quiz.id, token);
-      expect(res.status).toBe(403);
-    });
-
     it('should return 403 if user is not admin', async () => {
       user = User.build({ admin: false });
       token = generateAuthToken(user);

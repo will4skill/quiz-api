@@ -76,13 +76,9 @@ router.delete('/:id', [auth, admin], async (req, res) => {
   const user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } });
   if (!user_quiz) {
     res.status(404).send('UserQuiz ID not found');
-  } else {// Check for current user
-    if (req.user.id !== user_quiz.user_id) {
-      res.status(403).send('Forbidden');
-    } else {
-      const deleted_user_quiz = await user_quiz.destroy(); // Auto-deletes user-answers
-      res.send(deleted_user_quiz);
-    }
+  } else {
+    const deleted_user_quiz = await user_quiz.destroy(); // Auto-deletes user-answers
+    res.send(deleted_user_quiz);
   }
 });
 
