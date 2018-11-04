@@ -87,11 +87,11 @@ Additional resources that helped me:
 ### Questions Resource
 |URL|HTTP verb|Result|Admin only?|
 |---|---|---|---|
-/api/questions|POST|create a new question|Yes|
-/api/questions|GET|return all questions|Yes|
-/api/questions/:id|GET|return a specific question|Yes|
-/api/questions/:id|PUT|update a specific question|Yes|
-/api/questions/:id|DELETE|delete a specific question|Yes|
+/api/quizzes/:userQuizId/questions|POST|create a new question|Yes|
+/api/quizzes/:userQuizId/questions|GET|return all questions|Yes|
+/api/quizzes/:userQuizId/questions/:id|GET|return a specific question|Yes|
+/api/quizzes/:userQuizId/questions/:id|PUT|update a specific question|Yes|
+/api/quizzes/:userQuizId/questions/:id|DELETE|delete a specific question|Yes|
 
 ### UserQuizzes Resource
 |URL|HTTP verb|Result|Admin only?|
