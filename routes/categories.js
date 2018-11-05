@@ -9,6 +9,14 @@ router.get('/', auth, async (req, res) => {
   res.send(categories);
 });
 
+router.get(`/:id`, [auth, admin], async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  if (!category) {
+    return res.status(404).send('Category with submitted ID not found');
+  }
+  res.send(category);
+});
+
 router.post('/', [auth, admin], async (req, res) => {
   try {
     const category = await Category.create({ name: req.body.name });
