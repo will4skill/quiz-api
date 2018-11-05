@@ -17,6 +17,11 @@ const logger = winston.createLogger({
 process.on('unhandledRejection', (exception) => { throw exception });
 // ** Node Error Logging: End **************************************************
 
+// ** Enable CORS: Start *******************************************************
+const cors = require('cors');
+app.use(cors());
+// ** Enable CORS: End *********************************************************
+
 // ** Express Routes: Start ****************************************************
 const categories = require('./routes/categories');
 const users = require('./routes/users');
