@@ -28,7 +28,11 @@ router.post('/', [auth, admin, findCategory], async (req, res) => {
 router.get('/:id', [auth, admin], async (req, res) => {
   const quiz = await Quiz.findOne({
     where: { id: req.params.id },
-    include: [{ model: Question, where: { quiz_id: Sequelize.col('quiz.id')} }]
+    include: [{
+      model: Question,
+      where: { quiz_id: Sequelize.col('quiz.id')},
+      required: false
+    }]
   });
   if (!quiz) {
     res.status(404).send('Quiz with submitted ID not found');
