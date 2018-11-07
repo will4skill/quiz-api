@@ -11,8 +11,28 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.post('/', [auth, findQuiz], async (req, res) => {
+  //****************************************************************************
+  let answers = { };
+  let count = 0;
+  req.quiz.questions.forEach((question) => {
+    count++;
+    answers[question.id] = question.answer;
+  });
+
+  let correct = 0;
+  req.body.user_answers.forEach((user_answer) => {
+    if (user_answer.answer === answers[user_answer.question_id]) {
+      user_answer.correct = true;
+      correct++;
+    } else {
+      user_answer.correct = false;
+    }
+  });
+  const score = correct/count;
+  //****************************************************************************
+
   let user_quiz = UserQuiz.build({
-    score: req.body.score,
+    score: score,
     time: req.body.time,
     user_id: req.user.id,
     quiz_id: req.body.quiz_id
@@ -40,7 +60,7 @@ router.get('/:id', auth, async (req, res) => {
     include: [{
       model: UserAnswer,
       where: { user_quiz_id: sequelize.col('user_quiz.id')},
-      required: false 
+      required: false
     }]
   });
   if (!user_quiz) {

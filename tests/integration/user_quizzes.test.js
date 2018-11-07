@@ -136,20 +136,21 @@ describe('/api/user-quizzes', () => {
       });
       question_1 = await Question.create({
         question: 'What does the cow say?',
-        answer: 'Moo!'
+        answer: 'Moo!',
+        quiz_id: quiz.id
       });
       question_2 = await Question.create({
         question: 'What does the pig say?',
-        answer: 'Oink!'
+        answer: 'Oink!',
+        quiz_id: quiz.id
       });
       user_quiz_object = {
-        score: 1.00,
         time: 12.34,
         quiz_id: quiz.id,
         user_id: user.id,
         user_answers: [
-          { question_id: question_1.id, answer: "Moo!", correct: true },
-          { question_id: question_2.id, answer: "Meow!", correct: false }
+          { question_id: question_1.id, answer: "Moo!" },
+          { question_id: question_2.id, answer: "Meow!" }
         ]
       };
     });
@@ -188,12 +189,11 @@ describe('/api/user-quizzes', () => {
 
     it('should return 400 if any user_answer is invalid', async () => {
       user_quiz_object = {
-        score: 1.00,
         time: 12.34,
         quiz_id: quiz.id,
         user_id: user.id,
         user_answers: [
-          { question_id: question_1.id, answer: "Moo!", correct: true },
+          { question_id: question_1.id, answer: "Moo!" },
           { }
         ]
       };
@@ -209,7 +209,7 @@ describe('/api/user-quizzes', () => {
       const user_answer_2 = await UserAnswer.findOne({ where: { answer: "Meow!" } });
 
       expect(user_quiz).toHaveProperty('id');
-      expect(user_quiz).toHaveProperty('score', 1.00);
+      expect(user_quiz).toHaveProperty('score', 0.50);
       expect(user_quiz).toHaveProperty('time', 12.34);
       expect(user_quiz).toHaveProperty('quiz_id', quiz.id);
       expect(user_quiz).toHaveProperty('user_id', user.id);
@@ -228,7 +228,7 @@ describe('/api/user-quizzes', () => {
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('id');
-      expect(res.body).toHaveProperty('score', 1.00);
+      expect(res.body).toHaveProperty('score', 0.50);
       expect(res.body).toHaveProperty('time', 12.34);
       expect(res.body).toHaveProperty('quiz_id', quiz.id);
       expect(res.body).toHaveProperty('user_id', user.id);
