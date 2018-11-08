@@ -6,7 +6,14 @@ const { findQuiz } = require('../middleware/find');
 const { sequelize, UserQuiz, UserAnswer, Quiz } = require('../sequelize');
 
 router.get('/', auth, async (req, res) => {
-  const user_quizzes = await UserQuiz.findAll({ where: { user_id: req.user.id } });
+  const user_quizzes = await UserQuiz.findAll({
+    where: { user_id: req.user.id },
+    include: [{ //**************************************************************
+      model: UserAnswer,
+      where: { user_quiz_id: sequelize.col('user_quiz.id')},
+      required: false
+    }] //***********************************************************************
+  });
   res.send(user_quizzes);
 });
 
