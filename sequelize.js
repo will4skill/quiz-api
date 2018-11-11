@@ -10,14 +10,14 @@ const CategoryModel = require('./models/category');
 const QuestionModel = require('./models/question');
 let sequelize;
 
-// if (process.env.NODE_ENV === 'production') {
-//   sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' });
-// } else {
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' });
+} else {
   sequelize = new Sequelize('database', 'username', 'password', {
     dialect: 'sqlite',
     storage: db
   });
-// }
+}
 
 const User = UserModel(sequelize, Sequelize);
 const UserQuiz = UserQuizModel(sequelize, Sequelize);
