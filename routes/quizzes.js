@@ -28,7 +28,8 @@ router.post('/', [auth, admin, findCategory], async (req, res) => {
 router.get('/:id', auth, async (req, res) => {
   let quiz;
   if (req.user.admin === false) {
-    quiz = await Quiz.findById(req.params.id, {
+    quiz = await Quiz.findOne({
+      where: { id: req.params.id },
       include: [{
         model: Question,
         where: { quiz_id: Sequelize.col('quiz.id')},
@@ -37,7 +38,8 @@ router.get('/:id', auth, async (req, res) => {
       }]
     });
   } else {
-    quiz = await Quiz.findById(req.params.id, {
+    quiz = await Quiz.findOne({
+      where: { id: req.params.id },
       include: [{
         model: Question,
         where: { quiz_id: Sequelize.col('quiz.id')},
