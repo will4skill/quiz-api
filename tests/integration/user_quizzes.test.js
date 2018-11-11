@@ -74,6 +74,27 @@ describe('/api/user-quizzes', () => {
         quiz_id: quiz_2.id,
         user_id: other_user.id
       });
+
+      await UserAnswer.bulkCreate([
+        {
+          answer: 'Moo!',
+          correct: true,
+          user_quiz_id: user_quiz_1.id,
+          question_id: question_1.id
+        },
+        {
+          answer: 'America',
+          correct: false,
+          user_quiz_id: user_quiz_2.id,
+          question_id: question_2.id
+        },
+        {
+          answer: 'Asia',
+          correct: true,
+          user_quiz_id: other_user_quiz.id,
+          question_id: question_2.id
+        }
+      ]);
     });
 
     it('should return 401 if client not logged in', async () => {
@@ -83,7 +104,8 @@ describe('/api/user-quizzes', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return all user quizzes for current user only (stat code 200)', async () => {
+    it(`should return all user quizzes and associated user_answers
+        for current user only (stat code 200)`, async () => {
       const res = await response(token);
 
       expect(res.status).toBe(200);
@@ -105,6 +127,8 @@ describe('/api/user-quizzes', () => {
       expect(res.body.some(uq => uq.user_id === user_quiz_1.user_id)).toBeTruthy();
       expect(res.body.some(uq => uq.user_id === user_quiz_2.user_id)).toBeTruthy();
       expect(res.body.some(uq => uq.user_id === other_user_quiz.user_id)).toBeFalsy();
+
+      expect(res.body.some(uq => uq.user_answers.length === 1)).toBeTruthy();
 
       expect(res.body.length).toBe(2);
     });

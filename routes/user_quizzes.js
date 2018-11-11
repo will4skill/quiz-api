@@ -8,18 +8,18 @@ const { sequelize, UserQuiz, UserAnswer, Quiz } = require('../sequelize');
 router.get('/', auth, async (req, res) => {
   const user_quizzes = await UserQuiz.findAll({
     where: { user_id: req.user.id },
-    include: [{ //**************************************************************
+    include: [{
       model: UserAnswer,
       where: { user_quiz_id: sequelize.col('user_quiz.id')},
       required: false
-    }] //***********************************************************************
+    }]
   });
   res.send(user_quizzes);
 });
 
 router.post('/', [auth, findQuiz], async (req, res) => {
   //****************************************************************************
-  let answers = { };
+  let answers = {};
   let count = 0;
   req.quiz.questions.forEach((question) => {
     count++;
