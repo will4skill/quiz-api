@@ -63,7 +63,6 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 router.put('/:id', [auth, admin, findQuiz], async (req, res) => {
-
   let user_quiz = await UserQuiz.findOne({ where: { id: req.params.id } });
   if (!user_quiz) {
     return res.status(404).send('UserQuiz with submitted ID not found');
