@@ -181,12 +181,24 @@ describe('/api/quizzes', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return 403 if user is not admin', async () => {
+    it('should only return questions if user is not admin', async () => {
       user = User.build({ admin: false });
       token = generateAuthToken(user);
       const res = await response(quiz.id, token);
 
-      expect(res.status).toBe(403);
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty('id', quiz.id);
+      expect(res.body).toHaveProperty('title', 'Solar System');
+      expect(res.body).toHaveProperty('description', 'Test your Solar System Knowledge');
+      expect(res.body).toHaveProperty('difficulty', 5);
+      expect(res.body).toHaveProperty('category_id', category_1.id);
+
+      expect(res.body.questions.length).toBe(2);
+      expect(res.body.questions.some(q => q.quiz_id === quiz.id)).toBeFalsy();
+      expect(res.body.questions.some(q => q.question === 'What does the cow say?')).toBeTruthy();
+      expect(res.body.questions.some(q => q.answer === 'Moo!')).toBeFalsy();
+      expect(res.body.questions.some(q => q.question === 'What does the cat say?')).toBeTruthy();
+      expect(res.body.questions.some(q => q.answer === 'Meow!')).toBeFalsy();
     });
 
     it('should return 404 if invalid quiz ID', async () => {
