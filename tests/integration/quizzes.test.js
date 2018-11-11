@@ -168,9 +168,9 @@ describe('/api/quizzes', () => {
         category_id: category_2.id
       });
       await Question.bulkCreate([
-        { quiz_id: quiz.id, question: 'What does the cow say?', answer: 'Moo!' },
-        { quiz_id: quiz.id, question: 'What does the cat say?', answer: 'Meow!' },
-        { quiz_id: other_quiz.id, question: "What is Harden's number?", answer: '13' }
+        { id: 1, quiz_id: quiz.id, question: 'What does the cow say?', answer: 'Moo!' },
+        { id: 2, quiz_id: quiz.id, question: 'What does the cat say?', answer: 'Meow!' },
+        { id: 3, quiz_id: other_quiz.id, question: "What is Harden's number?", answer: '13' }
       ]);
     });
 
@@ -194,6 +194,8 @@ describe('/api/quizzes', () => {
       expect(res.body).toHaveProperty('category_id', category_1.id);
 
       expect(res.body.questions.length).toBe(2);
+      expect(res.body.questions.some(q => q.id === 1)).toBeTruthy();
+      expect(res.body.questions.some(q => q.id === 2)).toBeTruthy();
       expect(res.body.questions.some(q => q.quiz_id === quiz.id)).toBeFalsy();
       expect(res.body.questions.some(q => q.question === 'What does the cow say?')).toBeTruthy();
       expect(res.body.questions.some(q => q.answer === 'Moo!')).toBeFalsy();

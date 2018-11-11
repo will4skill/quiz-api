@@ -33,7 +33,7 @@ router.get('/:id', auth, async (req, res) => {
       include: [{
         model: Question,
         where: { quiz_id: Sequelize.col('quiz.id')},
-        attributes: ['question'],
+        attributes: ['id','question'],
         required: false
       }]
     });
