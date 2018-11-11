@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const { findQuiz } = require('../middleware/find');
+const calculateScore = require('../middleware/calculateScore');
 const { sequelize, UserQuiz, UserAnswer, Quiz } = require('../sequelize');
 
 router.get('/', auth, async (req, res) => {
@@ -17,29 +18,9 @@ router.get('/', auth, async (req, res) => {
   res.send(user_quizzes);
 });
 
-router.post('/', [auth, findQuiz], async (req, res) => {
-  //****************************************************************************
-  let answers = {};
-  let count = 0;
-  req.quiz.questions.forEach((question) => {
-    count++;
-    answers[question.id] = question.answer;
-  });
-
-  let correct = 0;
-  req.body.user_answers.forEach((user_answer) => {
-    if (user_answer.answer === answers[user_answer.question_id]) {
-      user_answer.correct = true;
-      correct++;
-    } else {
-      user_answer.correct = false;
-    }
-  });
-  const score = correct/count;
-  //****************************************************************************
-
+router.post('/', [auth, findQuiz, calculateScore], async (req, res) => {
   let user_quiz = UserQuiz.build({
-    score: score,
+    score: req.score,
     time: req.body.time,
     user_id: req.user.id,
     quiz_id: req.body.quiz_id
