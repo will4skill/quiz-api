@@ -30,21 +30,21 @@ router.get('/:id', auth, async (req, res) => {
   if (req.user.admin === false) {
     quiz = await Quiz.findOne({
       where: { id: req.params.id },
-      include: [{
+      include: {
         model: Question,
         where: { quiz_id: Sequelize.col('quiz.id')},
         attributes: ['id','question'],
         required: false
-      }]
+      }
     });
   } else {
     quiz = await Quiz.findOne({
       where: { id: req.params.id },
-      include: [{
+      include: {
         model: Question,
         where: { quiz_id: Sequelize.col('quiz.id')},
         required: false
-      }]
+      }
     });
   }
 

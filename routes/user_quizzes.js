@@ -45,11 +45,11 @@ router.post('/', [auth, findQuiz, calculateScore], async (req, res) => {
 router.get('/:id', auth, async (req, res) => {
   const user_quiz = await UserQuiz.findOne({
     where: { id: req.params.id },
-    include: [{
+    include: {
       model: UserAnswer,
       where: { user_quiz_id: sequelize.col('user_quiz.id')},
       required: false
-    }]
+    }
   });
   if (!user_quiz) {
     res.status(404).send('UserQuiz with submitted ID not found');
