@@ -11,7 +11,10 @@ const QuestionModel = require('./models/question');
 let sequelize;
 
 if (process.env.NODE_ENV === 'production') {
-  sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' });
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    protocol: 'postgres'
+  });
 } else {
   sequelize = new Sequelize('database', 'username', 'password', {
     dialect: 'sqlite',
