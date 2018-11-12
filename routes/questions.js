@@ -55,8 +55,8 @@ router.delete(`${prefix}/:id`, [auth, admin, findQuiz], async (req, res) => {
   if (!question) {
     return res.status(404).send('Question with submitted ID not found');
   }
-  const deleted_question = await question.destroy();
-  res.send(deleted_question);
+  await question.destroy();
+  res.send(question);
 });
 
 module.exports = router;

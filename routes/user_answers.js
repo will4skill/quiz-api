@@ -29,8 +29,8 @@ router.delete(`${prefix}/:id`, [auth, admin, findUserQuiz], async (req, res) => 
   if (!user_answer) {
     return res.status(404).send('User Answer with submitted ID not found');
   }
-  const deleted_user_answer = await user_answer.destroy();
-  res.send(deleted_user_answer);
+  await user_answer.destroy();
+  res.send(user_answer);
 });
 
 module.exports = router;

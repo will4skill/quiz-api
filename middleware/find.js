@@ -1,4 +1,4 @@
-const { sequelize, User, UserQuiz, UserAnswer,
+const { User, UserQuiz, UserAnswer,
         Quiz, Category, Question } = require('../sequelize');
 
 async function findCategory(req, res, next) {
@@ -12,13 +12,12 @@ async function findCategory(req, res, next) {
 
 async function findQuiz(req, res, next) {
   const quiz_id = req.params.quizId ? req.params.quizId : req.body.quiz_id;
-  const quiz = await Quiz.findOne({
-    where: { id: quiz_id },
-    include: [{
+  const quiz = await Quiz.findById(quiz_id, {
+    include: {
       model: Question,
-      where: { quiz_id: sequelize.col('quiz.id')},
+      where: { quiz_id: quiz_id },
       required: false
-    }]
+    }
   });
   if (!quiz) {
     return res.status(400).send('Invalid Quiz');

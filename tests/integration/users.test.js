@@ -1,4 +1,4 @@
-const { User } = require('../../sequelize');
+const { User, sequelize } = require('../../sequelize');
 const server = require('../../index');
 const request = require('supertest')(server);
 const generateAuthToken = require('../../utilities/tokenUtility');
@@ -6,6 +6,10 @@ const generateAuthToken = require('../../utilities/tokenUtility');
 describe('/api/users', () => {
   afterEach(async () => {
     await User.destroy({ where: {} });
+  });
+
+  afterAll(() => {
+    sequelize.close();
   });
 
   describe('GET /', () => {

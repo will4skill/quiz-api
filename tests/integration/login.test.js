@@ -1,4 +1,4 @@
-const { User } = require('../../sequelize');
+const { User, sequelize } = require('../../sequelize');
 const generateAuthToken = require('../../utilities/tokenUtility');
 const server = require('../../index');
 const request = require('supertest')(server);
@@ -7,6 +7,10 @@ const bcrypt = require('bcrypt');
 describe('/api/login', () => {
   afterEach(async () => {
     await User.destroy({ where: {} });
+  });
+
+  afterAll(() => {
+    sequelize.close();
   });
 
   describe('POST /', () => {

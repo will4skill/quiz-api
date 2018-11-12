@@ -1,4 +1,4 @@
-const { UserAnswer, User, UserQuiz, Question, Category, Quiz } = require('../../sequelize');
+const { UserAnswer, User, UserQuiz, Question, Category, Quiz, sequelize } = require('../../sequelize');
 const generateAuthToken = require('../../utilities/tokenUtility');
 const server = require('../../index');
 const request = require('supertest')(server);
@@ -11,6 +11,10 @@ describe('/:userQuizId/user-answers/', () => {
     await Quiz.destroy({ where: {} });
     await Question.destroy({ where: {} });
     await Category.destroy({ where: {} });
+  });
+
+  afterAll(() => {
+    sequelize.close();
   });
 
   describe('PUT /ID', () => {

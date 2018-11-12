@@ -44,8 +44,8 @@ router.delete('/:id', [auth, admin], async (req, res) => {
   if (!category) {
     return res.status(404).send('Category with submitted ID not found');
   }
-  const deleted_category = await category.destroy();
-  res.send(deleted_category);
+  await category.destroy();
+  res.send(category);
 });
 
 module.exports = router;

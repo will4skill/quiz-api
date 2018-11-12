@@ -4,14 +4,15 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const { findQuiz } = require('../middleware/find');
 const calculateScore = require('../middleware/calculateScore');
-const { sequelize, UserQuiz, UserAnswer, Quiz } = require('../sequelize');
+const { UserQuiz, UserAnswer, Quiz, sequelize } = require('../sequelize');
 
 router.get('/', auth, async (req, res) => {
+  const user_id = req.user.id;
   const user_quizzes = await UserQuiz.findAll({
-    where: { user_id: req.user.id },
+    where: { user_id: user_id },
     include: [{
       model: UserAnswer,
-      where: { user_quiz_id: sequelize.col('user_quiz.id')},
+      //where: { user_quiz_id: user_quiz.id },
       required: false
     }]
   });
@@ -43,13 +44,13 @@ router.post('/', [auth, findQuiz, calculateScore], async (req, res) => {
 });
 
 router.get('/:id', auth, async (req, res) => {
-  const user_quiz = await UserQuiz.findOne({
+  const user_quiz_id = req.params.id;
+  const user_quiz = await UserQuiz.findById(user_quiz_id, {
     include: {
       model: UserAnswer,
-      where: { user_quiz_id: sequelize.col('user_quiz.id')},
+      where: { user_quiz_id: user_quiz_id },
       required: false
-    },
-    where: { id: req.params.id }
+    }
   });
   if (!user_quiz) {
     res.status(404).send('UserQuiz with submitted ID not found');
@@ -88,8 +89,8 @@ router.delete('/:id', [auth, admin], async (req, res) => {
   if (!user_quiz) {
     res.status(404).send('UserQuiz ID not found');
   } else {
-    const deleted_user_quiz = await user_quiz.destroy(); // Auto-deletes user-answers
-    res.send(deleted_user_quiz);
+    await user_quiz.destroy(); // Auto-deletes user-answers
+    res.send(user_quiz);
   }
 });
 

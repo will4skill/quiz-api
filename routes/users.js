@@ -73,8 +73,8 @@ router.delete('/:id', [auth, admin], async (req, res) => {
   if (!user) {
     res.status(404).send('User ID not found');
   } else {
-    const deleted_user = await user.destroy();
-    res.send(deleted_user);
+    await user.destroy();
+    res.send(user);
   }
 });
 
