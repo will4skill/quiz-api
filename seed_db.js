@@ -47,12 +47,12 @@ const bcrypt = require('bcrypt');
     await Question.bulkCreate(questions_1);
 
     let questions_2 = [];
-    const muscles = ["front_neck", "deltoids", "biceps", "pectorals",
-                     "obliques", "abdominals", "quadriceps", "hip_adductors",
-                     "tibialis_anterior", "upper_trapezius", "lower_trapezius",
-                     "posterior_deltoids", "infraspinatus", "triceps",
-                     "latissimus_dorsi", "lower_back", "glutes", "hamstrings",
-                     "calves", "front_forearms", "back_forearms"];
+    const muscles = ["front-neck", "deltoids", "biceps", "pectorals",
+                     "obliques", "abdominals", "quadriceps", "hip adductors",
+                     "tibialis anterior", "upper trapezius", "lower trapezius",
+                     "posterior deltoids", "infraspinatus", "triceps",
+                     "latissimus dorsi", "lower back", "glutes", "hamstrings",
+                     "calves", "front-forearms", "back-forearms"];
     for (muscle of muscles) {
       questions_2.push({ quiz_id: quiz_2.id, question: muscle, answer: muscle });
     }
