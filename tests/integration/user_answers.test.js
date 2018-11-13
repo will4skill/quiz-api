@@ -13,8 +13,8 @@ describe('/:userQuizId/user-answers/', () => {
     await Category.destroy({ where: {} });
   });
 
-  afterAll(() => {
-    sequelize.close();
+  afterAll(async () => {
+    await sequelize.close();
   });
 
   describe('PUT /ID', () => {

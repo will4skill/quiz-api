@@ -13,8 +13,8 @@ describe('/api/user-quizzes', () => {
     await Question.destroy({ where: {} });
   });
 
-  afterAll(() => {
-    sequelize.close();
+  afterAll(async () => {
+    await sequelize.close();
   });
 
   describe('GET /', () => {

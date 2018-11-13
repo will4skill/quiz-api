@@ -9,8 +9,8 @@ describe('/api/login', () => {
     await User.destroy({ where: {} });
   });
 
-  afterAll(() => {
-    sequelize.close();
+  afterAll(async () => {
+    await sequelize.close();
   });
 
   describe('POST /', () => {

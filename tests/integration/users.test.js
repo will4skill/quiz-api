@@ -8,8 +8,8 @@ describe('/api/users', () => {
     await User.destroy({ where: {} });
   });
 
-  afterAll(() => {
-    sequelize.close();
+  afterAll(async () => {
+    await sequelize.close();
   });
 
   describe('GET /', () => {
@@ -21,7 +21,7 @@ describe('/api/users', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
 
@@ -67,7 +67,7 @@ describe('/api/users', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user_object = {
         name: 'bob',
         email: 'bob@example.com',
@@ -119,7 +119,7 @@ describe('/api/users', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: 'bob',
         email: 'bob@example.com',
@@ -155,7 +155,7 @@ describe('/api/users', () => {
         .send(object);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: 'bob',
         email: 'bob@example.com',
@@ -203,7 +203,7 @@ describe('/api/users', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       user = await User.create({
         name: 'bob',
         email: 'bob@example.com',

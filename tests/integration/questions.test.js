@@ -11,8 +11,8 @@ describe('/api/quizzes/:quizId/questions', () => {
     await Category.destroy({ where: {} });
   });
 
-  afterAll(() => {
-    sequelize.close();
+  afterAll(async () => {
+    await sequelize.close();
   });
 
   describe('GET /', () => {
@@ -345,7 +345,7 @@ describe('/api/quizzes/:quizId/questions', () => {
         .set('x-auth-token', jwt);
     };
 
-    beforeEach( async() => {
+    beforeEach( async () => {
       user = User.build({ admin: true });
       token = generateAuthToken(user);
       const category = await Category.create({ name: 'School' });

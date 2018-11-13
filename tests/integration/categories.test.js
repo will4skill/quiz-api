@@ -8,8 +8,8 @@ describe('/api/categories', () => {
     await Category.destroy({ where: {} });
   });
 
-  afterAll(() => {
-    sequelize.close();
+  afterAll(async () => {
+    await sequelize.close();
   });
 
   describe('GET /', () => {
