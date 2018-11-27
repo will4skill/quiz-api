@@ -34,8 +34,8 @@ const error = require('./middleware/error');
 
 app.get('/api', (req, res) => {
   const url = "https://github.com/jtimwill/quiz-api";
-  res.send(`See README for API use instructions: ${url}`));
-}
+  res.send(`See README for API use instructions: ${url}`);
+});
 app.use(express.json());
 app.use('/api/categories', categories);
 app.use('/api/users', users);
