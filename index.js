@@ -32,6 +32,7 @@ const user_answers = require('./routes/user_answers');
 const questions = require('./routes/questions');
 const error = require('./middleware/error');
 
+app.get('/', (req, res) => res.send('See README file for API use instructions'));
 app.use(express.json());
 app.use('/api/categories', categories);
 app.use('/api/users', users);
