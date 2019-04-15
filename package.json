@@ -10,24 +10,24 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.2",
-    "compression": "^1.7.3",
-    "config": "^2.0.1",
-    "cors": "^2.8.4",
-    "debug": "^4.1.0",
+    "bcrypt": "^3.0.6",
+    "compression": "^1.7.4",
+    "config": "^2.0.2",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
     "express": "^4.16.4",
     "express-async-errors": "^3.1.1",
-    "helmet": "^3.14.0",
-    "jsonwebtoken": "^8.3.0",
+    "helmet": "^3.16.0",
+    "jsonwebtoken": "^8.5.1",
     "merge": ">=1.2.1",
-    "moment": "^2.22.2",
+    "moment": "^2.24.0",
     "pg": "^5.2.1",
     "sequelize": "^4.43.1",
-    "sqlite3": "^4.0.3",
-    "winston": "^3.1.0"
+    "sqlite3": "^4.0.6",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "jest": "^23.6.0",
-    "supertest": "^3.3.0"
+    "supertest": "^3.4.2"
   }
 }
