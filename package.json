@@ -12,7 +12,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "compression": "^1.7.4",
-    "config": "^2.0.2",
+    "config": "^3.3.8",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.17.1",
